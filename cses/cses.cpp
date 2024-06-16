@@ -6,19 +6,15 @@ const ll MOD = 1e9 + 7;
 
 int main()
 {
-    int n, x; cin >> n >> x;
-    vector <int> coins(n); for (int i = 0; i < n; i++){cin >> coins[i];}
-    vector <int> dp(x+1, 0);
-    dp[0] = 1;
-    for (int i = 1; i <= x; i++)
+    ll n, q; cin >> n >> q;
+    ll arr[n]; for (ll i = 0; i < n; i++){cin >> arr[i];}
+    ll pref[n]; pref[0] = arr[0]; for (ll i = 1; i < n; i++){pref[i] = pref[i-1] + arr[i];}
+    for (ll i = 0; i < q; i++)
     {
-        for (int j = 0; j < n; j++)
-        {
-            if (i - coins[j] >= 0)
-            {
-                (dp[i] += dp[i - coins[j]]) %= MOD;
-            }
-        }
+        ll a, b; cin >> a >> b;
+        if (a == 1 && b == 1){cout << arr[0] << endl;}
+        else if (a == 1){cout << pref[b-1] << endl;}
+        else{
+        cout << pref[b-1] - pref[a-2] << endl;}
     }
-    cout << dp[x];
 }
