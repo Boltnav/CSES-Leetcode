@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 long long MOD = 1e9+7;
-
+ 
 int main()
 {
     int n; cin >> n; char grid[n][n];

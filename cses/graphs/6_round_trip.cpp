@@ -1,55 +1,42 @@
-// dfs, checking if any neighbour has already been visited
+// dfs, checking if any neighbour has already been visited to find a cycle.
 
 #include <bits/stdc++.h>
 using namespace std;
 
-bool flag = false;
-
-void dfs(vector <int>& parent, vector <int>& visited, vector <vector<int>>& graph, int i)
+bool dfs (vector <int>& par, vector <int>& vis, vector<vector<int>>& graph, int v)
 {
-    stack <int> s;
-    s.push(i);
-    visited[i] = 1;
-    while (!s.empty())
+    vis[v] = 1;
+    int end = v;
+    for (int u : graph[v])
     {
-        // current node of graph
-        int v = s.top(); s.pop();
-        if (visited[v] == 0)
+        if (u == par[v]) continue;      // the parent should be skipped [already visited, but can't form cycle]
+        if (vis[u])
         {
-            visited[v] = 1;
-            for (int connected_vertex : graph[v])
+            vector <int> path;
+            while (v != u && v != -1)
             {
-                if (visited[connected_vertex] == 0)
-                {
-                    parent[connected_vertex] = v;
-                    s.push(connected_vertex);
-                }
-                else if (visited[connected_vertex] == 1)
-                {
-                    int start = connected_vertex;
-                    int end = v;
-                    vector <int> path;
-                    path.push_back(start);
-                    path.push_back(end);
-                    while (end != start && end != -1)
-                    {
-                        end = parent[end];
-                        path.push_back(end);
-                    }
-                    if (path[path.size()-1] != -1 && path.size() > 3)
-                    {
-                        cout << path.size() << endl;
-                        for (int vertex : path)
-                        {
-                            cout << vertex << " ";
-                        }
-                        cout << endl;
-                        flag = true;
-                    }
-                }
+                path.push_back(v);
+                v = par[v];
+            }
+            path.push_back(u); 
+            if (path.size() >= 3)
+            {
+                path.push_back(end);
+                cout << path.size() << endl;
+                for (int i = 0; i < path.size(); i++){cout << path[i] << " ";}
+                return true;
+            }
+        }
+        else
+        {
+            par[u] = v;
+            if (dfs(par, vis, graph, u))
+            {
+                return true;
             }
         }
     }
+    return false;
 }
 
 int main()
@@ -62,18 +49,18 @@ int main()
         graph[a].push_back(b);
         graph[b].push_back(a);
     }
-    vector <int> parent (n+1, -1);
-    vector <int> visited (n+1, 0);
-
+    vector <int> par (n+1, -1);
+    vector <int> vis (n+1, 0);
+    bool flag = false;
     for (int i = 1; i <= n; i++)
     {
-        if (!visited[i])
+        if (!vis[i])
         {
-            dfs(parent, visited, graph, i);
-        }
-        if (flag)
-        {
-            break;
+            if (dfs(par, vis, graph, i))
+            {
+                flag = true;
+                break;
+            }
         }
     }
     if (!flag){cout << "IMPOSSIBLE";}
