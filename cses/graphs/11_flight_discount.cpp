@@ -8,7 +8,7 @@ void dijkstra(vector<vector<pair<ll, ll>>>& graph, vector<ll>& dist,
               vector<ll>& parent, ll s)
 {
     ll n = graph.size() - 1; 
-    priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
+    priority_queue<vector<ll>, vector<vector<ll>>, greater<vector<ll>>> pq;
     dist[s] = 0;
     pq.push({0, s});
 
@@ -59,6 +59,7 @@ vector<ll> restore_path(ll s, ll t, vector<ll> const& parent)
     {
         path.push_back(v);
     }
+
     path.push_back(s);
     reverse(path.begin(), path.end());
     return path;
@@ -90,7 +91,6 @@ int main()
         cout << dist[i] << " ";
     }
     
-
     // vector<ll> path = restore_path(s, n, parent);
     // if (path.empty())
     // {

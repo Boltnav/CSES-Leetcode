@@ -85,23 +85,22 @@ int main()
 
     dijkstra(graph, dist, parent, s);
 
-    for (int i = 1; i <= n; i++)
-    {
-        cout << dist[i] << " ";
-    }
-    
+    // for (int i = 1; i <= n; i++)
+    // {
+    //     cout << dist[i] << " ";
+    // }
 
-    // vector<ll> path = restore_path(s, n, parent);
-    // if (path.empty())
-    // {
-    //     cout << -1 << endl;
-    // }
-    // else
-    // {
-    //     for (ll i = 0; i < path.size(); i++)
-    //     {
-    //         cout << path[i] << " ";
-    //     }
-    //     cout << endl;
-    // }
+    vector<ll> path = restore_path(s, n, parent);
+    if (path.empty())
+    {
+        cout << -1 << endl;
+    }
+    else
+    {
+        for (ll i = 0; i < path.size(); i++)
+        {
+            cout << path[i] << " ";
+        }
+        cout << endl;
+    }
 }
